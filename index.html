@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THENODIX — 브랜드 성장 의사결정 자문</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<style>
+  :root{
+    --navy:#101C2C;
+    --navy-deep:#0A121C;
+    --navy-line:rgba(247,247,242,0.16);
+    --paper:#F7F7F2;
+    --paper-alt:#EFEFE6;
+    --gray:#A7ADB5;
+    --white:#FFFFFF;
+    --ink:#101C2C;
+    --ink-soft:rgba(16,28,44,0.66);
+    --ink-faint:#8B929B;
+    --line:rgba(16,28,44,0.16);
+    --line-soft:rgba(16,28,44,0.10);
+    --lemon:#F1E56B;
+    --signal:#FFD83D;
+    --max:1120px;
+    --sans:'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.65;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block; max-width:100%;}
+  a{color:inherit;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* ---------- Header ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(16,28,44,0.90);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--navy-line);
+    transition:background .25s ease, border-color .25s ease;
+  }
+  header.site.is-scrolled{
+    background:rgba(247,247,242,0.94);
+    border-bottom-color:var(--line-soft);
+  }
+  .header-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:28px;
+    padding:16px 0;
+  }
+  .logo{
+    font-weight:800; font-size:18px; letter-spacing:0.04em;
+    text-decoration:none; color:var(--white); flex:0 0 auto;
+    transition:color .25s ease;
+  }
+  header.site.is-scrolled .logo{ color:var(--navy); }
+
+  .tabs-wrap{ position:relative; flex:1 1 auto; min-width:0; }
+  .tabs-wrap::after{
+    content:""; position:absolute; top:0; right:0; bottom:0; width:26px;
+    background:linear-gradient(to right, transparent, rgba(16,28,44,0.92));
+    pointer-events:none;
+  }
+  header.site.is-scrolled .tabs-wrap::after{ background:linear-gradient(to right, transparent, rgba(247,247,242,0.94)); }
+  @media (min-width:900px){ .tabs-wrap::after{ display:none; } }
+  .tabs{
+    display:flex; gap:2px; list-style:none; margin:0; padding:0;
+    overflow-x:auto; scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{ display:none; }
+  .tabs li{ flex:0 0 auto; }
+  .tabs a{
+    display:block; white-space:nowrap;
+    font-size:13.5px; font-weight:600; color:rgba(247,247,242,0.62);
+    text-decoration:none; padding:8px 13px;
+    border-bottom:2px solid transparent;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .tabs a:hover{ color:var(--white); }
+  .tabs a.active{ color:var(--white); border-bottom-color:var(--signal); }
+  header.site.is-scrolled .tabs a{ color:var(--ink-soft); }
+  header.site.is-scrolled .tabs a:hover{ color:var(--ink); }
+  header.site.is-scrolled .tabs a.active{ color:var(--ink); border-bottom-color:var(--signal); }
+
+  .header-cta{
+    font-family:var(--sans); font-size:13.5px; font-weight:700;
+    text-decoration:none; color:var(--navy); flex:0 0 auto;
+    background:var(--signal); padding:9px 18px;
+    transition:opacity .18s ease;
+  }
+  .header-cta:hover{ opacity:0.86; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative; overflow:hidden;
+    background:
+      radial-gradient(1px 1px at 8% 22%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 18% 68%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1.5px 1.5px at 27% 40%, rgba(255,255,255,.45), transparent),
+      radial-gradient(1px 1px at 36% 15%, rgba(255,255,255,.35), transparent),
+      radial-gradient(1.5px 1.5px at 47% 78%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1px 1px at 58% 30%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1px 1px at 67% 60%, rgba(255,255,255,.3), transparent),
+      radial-gradient(1.5px 1.5px at 76% 20%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1px 1px at 85% 72%, rgba(255,255,255,.35), transparent),
+      radial-gradient(1px 1px at 93% 42%, rgba(255,255,255,.4), transparent),
+      radial-gradient(120% 100% at 18% 0%, #16233A 0%, var(--navy) 45%, var(--navy-deep) 100%);
+    color:var(--paper);
+    padding:104px 0 0;
+  }
+  @media (max-width:640px){ .hero{ padding:64px 0 0; } }
+  .hero-kicker{
+    font-size:13px; font-weight:700; color:var(--gray);
+    margin:0 0 22px; letter-spacing:0.02em;
+  }
+  .hero h1{
+    font-weight:800;
+    font-size:clamp(32px, 5vw, 54px);
+    line-height:1.32;
+    margin:0 0 28px;
+    max-width:15ch;
+    letter-spacing:-0.01em;
+    color:var(--white);
+  }
+  .hero-sub{
+    font-size:17px; color:rgba(247,247,242,0.72); max-width:52ch; margin:0 0 44px;
+  }
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:64px;}
+  .btn-primary, .btn-secondary{
+    font-size:14px; font-weight:700; padding:13px 24px; text-decoration:none;
+    display:inline-block; transition:opacity .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+  }
+  .btn-primary{ background:var(--signal); color:var(--navy); }
+  .btn-primary:hover{ opacity:0.86; }
+  .btn-secondary{ border:1.5px solid rgba(247,247,242,0.4); color:var(--white); font-weight:600; }
+  .btn-secondary:hover{ border-color:var(--white); }
+
+  /* pipeline — Frame device */
+  .pipeline-frame{
+    position:relative;
+    border-top:1.5px solid var(--navy-line);
+    padding:40px 0 44px;
+  }
+  .pipeline-frame::before{
+    content:"GROWTH FLOW";
+    position:absolute; top:-10px; left:0;
+    background:var(--navy); padding-right:14px;
+    font-size:11px; font-weight:700; letter-spacing:0.12em; color:var(--gray);
+  }
+  .pipeline-row{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    position:relative;
+  }
+  @media (max-width:800px){
+    .pipeline-row{ grid-template-columns:1fr; gap:26px; }
+  }
+  .pipeline-node{ padding:0 20px; position:relative; opacity:0; transform:translateY(8px); animation:rise 0.6s ease forwards; }
+  .pipeline-node:nth-child(1){animation-delay:.05s;}
+  .pipeline-node:nth-child(2){animation-delay:.18s;}
+  .pipeline-node:nth-child(3){animation-delay:.31s;}
+  .pipeline-node:nth-child(4){animation-delay:.44s;}
+  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+  .pipeline-node:first-child{ padding-left:0; }
+  .pipeline-node:not(:first-child)::before{
+    content:"→"; position:absolute; left:-8px; top:2px;
+    color:rgba(247,247,242,0.3); font-size:14px;
+  }
+  @media (max-width:800px){ .pipeline-node:not(:first-child)::before{ content:"↓"; left:0; top:-22px; } }
+  .pipeline-node .num{ font-size:13px; font-weight:800; color:var(--signal); margin-bottom:8px; }
+  .pipeline-node .term{ font-size:19px; font-weight:800; margin-bottom:6px; color:var(--white); letter-spacing:0.01em; }
+  .pipeline-node .desc{ font-size:14px; color:rgba(247,247,242,0.62); }
+
+  /* ---------- Section shell ---------- */
+  section{ padding:88px 0; border-bottom:1px solid var(--line-soft); }
+  @media (max-width:640px){ section{ padding:56px 0; } }
+  section:last-of-type{ border-bottom:none; }
+  .section-head{ margin-bottom:48px; max-width:640px; }
+  .section-label{ font-size:13px; font-weight:700; color:var(--ink-faint); margin:0 0 14px; letter-spacing:0.02em; }
+  .section-title{ font-size:clamp(24px,3vw,32px); font-weight:800; margin:0 0 16px; line-height:1.4; }
+  .section-desc{ color:var(--ink-soft); font-size:15.5px; max-width:56ch; }
+
+  /* ---------- Comparison table (architecture) — Grid device ---------- */
+  .table-scroll{ overflow-x:auto; }
+  table.arch{
+    width:100%; border-collapse:collapse; min-width:640px;
+    font-size:14.5px;
+  }
+  table.arch th, table.arch td{
+    padding:16px 18px; text-align:left; vertical-align:top;
+    border-bottom:1px solid var(--line-soft);
+    border-right:1px solid var(--line-soft);
+  }
+  table.arch th:last-child, table.arch td:last-child{ border-right:none; }
+  table.arch thead th{
+    font-weight:700; font-size:16px;
+    background:var(--paper-alt); border-bottom:1.5px solid var(--navy);
+  }
+  table.arch thead th:first-child{ background:transparent; border-right-color:transparent; }
+  table.arch tbody th{
+    font-weight:600; color:var(--ink-faint); font-size:13.5px; white-space:nowrap;
+  }
+  table.arch td.mute{ color:var(--ink-faint); }
+
+  @media (max-width:680px){
+    .table-scroll{ overflow-x:visible; }
+    table.arch{ min-width:0; }
+    table.arch thead, table.scope thead{ display:none; }
+    table.arch tr, table.scope tr{ display:block; border-bottom:1px solid var(--line); padding:16px 0; }
+    table.arch tr:first-child, table.scope tr:first-child{ padding-top:0; }
+    table.arch th, table.arch td, table.scope th, table.scope td{
+      display:block; border:none !important; padding:5px 0 !important;
+    }
+    table.arch tbody th, table.scope tbody th{
+      font-size:13px; font-weight:700; color:var(--ink); margin-bottom:6px;
+    }
+    table.arch td::before, table.scope td::before{
+      content:attr(data-label);
+      display:block; font-size:11.5px; font-weight:700; color:var(--ink-faint); margin-top:8px; margin-bottom:2px;
+    }
+  }
+
+  /* ---------- Product detail ---------- */
+  .product{ padding:88px 0; border-bottom:1px solid var(--line-soft); }
+  @media (max-width:640px){ .product{ padding:56px 0; } }
+  .product-top{
+    display:grid; grid-template-columns:1.1fr 1.4fr; gap:56px; margin-bottom:48px;
+  }
+  @media (max-width:860px){ .product-top{ grid-template-columns:1fr; gap:28px; } }
+  .product-eyebrow{ font-size:13px; font-weight:700; color:var(--ink-faint); margin-bottom:14px; letter-spacing:0.02em; }
+  .product-title{ font-size:clamp(22px,2.6vw,29px); font-weight:800; line-height:1.4; margin:0 0 18px; }
+  .product-lede{ font-size:15px; color:var(--ink-soft); }
+  .product-facts{ border-top:1.5px solid var(--navy); }
+  .fact-row{ display:grid; grid-template-columns:120px 1fr; gap:18px; padding:15px 0; border-bottom:1px solid var(--line-soft); font-size:14.5px; }
+  .fact-row .k{ color:var(--ink-faint); font-weight:600; font-size:13px; padding-top:1px;}
+  .fact-row .v{ color:var(--ink); }
+
+  /* steps — Grid device */
+  .steps{ display:flex; flex-wrap:wrap; gap:0; margin-top:8px; border-top:1.5px solid var(--navy); }
+  .step{ flex:1 1 180px; padding:20px 20px 20px 0; border-bottom:1px solid var(--line-soft); }
+  .step .step-num{ font-size:12.5px; font-weight:800; color:var(--ink-faint); margin-bottom:8px; }
+  .step .step-body{ font-size:14px; color:var(--ink); font-weight:500; line-height:1.55; }
+
+  .subtable{ margin-top:10px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:14px; }
+  table.mini th, table.mini td{ padding:13px 16px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:top; }
+  table.mini thead th{ font-weight:700; font-size:15px; border-bottom:1.5px solid var(--navy); }
+  table.mini tbody th{ font-weight:600; color:var(--ink-faint); font-size:12.5px; width:150px; }
+
+  /* Frame callout — the signature device */
+  .frame{
+    position:relative;
+    border:1.5px solid var(--navy);
+    padding:26px 26px 24px;
+    margin-top:32px;
+    max-width:70ch;
+  }
+  .frame::before{
+    content:attr(data-label);
+    position:absolute; top:-11px; left:20px;
+    background:var(--paper); padding:0 8px;
+    font-size:12px; font-weight:700; color:var(--ink-faint); letter-spacing:0.04em;
+  }
+  .frame p{ margin:0; font-size:14.5px; color:var(--ink-soft); line-height:1.7; }
+  .frame p + p{ margin-top:10px; }
+  .frame strong{ color:var(--ink); font-weight:700; }
+
+  /* ---------- Strategic projects ---------- */
+  table.scope{ width:100%; border-collapse:collapse; font-size:14.5px; }
+  table.scope th, table.scope td{ padding:15px 18px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:top; }
+  table.scope thead th{ font-weight:700; font-size:16px; border-bottom:1.5px solid var(--navy); }
+  table.scope tbody th{ font-weight:600; color:var(--ink-faint); font-size:12.5px; width:140px; }
+  .scope-examples{ margin-top:28px; display:flex; flex-wrap:wrap; gap:10px; }
+  .scope-tag{ font-size:13px; font-weight:600; border:1px solid var(--line); padding:8px 14px; color:var(--ink-soft); }
+
+  /* ---------- Differentiation ---------- */
+  .diff-list{ border-top:1.5px solid var(--navy); }
+  .diff-item{
+    display:grid; grid-template-columns:40px 1fr 1.5fr; gap:24px;
+    padding:26px 0; border-bottom:1px solid var(--line-soft);
+  }
+  @media (max-width:760px){ .diff-item{ grid-template-columns:32px 1fr; } .diff-item .diff-desc{ grid-column:2; } }
+  .diff-item .diff-mark{ font-weight:800; color:var(--ink-faint); font-size:14px; padding-top:3px;}
+  .diff-item .diff-term{ font-weight:700; font-size:17px; }
+  .diff-item .diff-desc{ font-size:14.5px; color:var(--ink-soft); }
+
+  .principles{ margin-top:56px; }
+  .principles ul{ list-style:none; margin:0; padding:0; }
+  .principles li{
+    font-size:16.5px; font-weight:500; line-height:1.8;
+    padding-left:26px; position:relative; margin-bottom:10px; color:var(--ink);
+  }
+  .principles li::before{ content:"—"; position:absolute; left:0; color:var(--ink-faint); }
+
+  /* ---------- Contact / Footer ---------- */
+  .contact{ padding:96px 0 60px; }
+  .contact-grid{ display:grid; grid-template-columns:1.2fr 1fr; gap:60px; }
+  @media (max-width:760px){ .contact-grid{ grid-template-columns:1fr; gap:36px; } }
+  .contact h2{ font-size:clamp(26px,3.4vw,36px); font-weight:800; margin:0 0 18px; line-height:1.4; }
+  .contact p{ color:var(--ink-soft); font-size:15.5px; max-width:46ch; margin-bottom:32px; }
+  .contact-info{ border-top:1.5px solid var(--navy); padding-top:24px; }
+  .contact-info .row{ display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line-soft); font-size:14.5px; }
+  .contact-info .row span:first-child{ color:var(--ink-faint); font-weight:600; font-size:13px; }
+  .contact-info .row a{ text-decoration:none; }
+  .contact-info .row a:hover{ color:var(--ink); }
+  .contact .btn-primary{ color:var(--navy); }
+
+  footer{ padding:32px 0 48px; background:var(--navy); }
+  .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:13px; color:rgba(247,247,242,0.5); }
+  .footer-row .footer-logo{ color:var(--white); font-weight:800; letter-spacing:0.04em; }
+  .copyright{
+    border-top:1px solid var(--navy-line);
+    padding:20px 0;
+    text-align:center;
+    font-size:12px;
+    color:rgba(247,247,242,0.38);
+    background:var(--navy);
+  }
+
+  /* ---------- Contact modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(10,18,28,0.6);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    opacity:0; pointer-events:none;
+    transition:opacity .2s ease;
+  }
+  .modal-overlay.is-open{ opacity:1; pointer-events:auto; }
+  .modal-dialog{
+    position:relative;
+    width:100%; max-width:560px;
+    background:var(--paper);
+    border:1.5px solid var(--navy);
+    padding:36px 32px 32px;
+    max-height:88vh; overflow-y:auto;
+    transform:translateY(10px);
+    transition:transform .2s ease;
+  }
+  .modal-overlay.is-open .modal-dialog{ transform:translateY(0); }
+  .modal-dialog::before{
+    content:"CONTACT";
+    position:absolute; top:-11px; left:24px;
+    background:var(--paper); padding:0 8px;
+    font-size:12px; font-weight:700; color:var(--ink-faint); letter-spacing:0.06em;
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px;
+    width:32px; height:32px; border:none; background:transparent;
+    font-size:20px; line-height:1; color:var(--ink-faint); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .modal-close:hover{ color:var(--ink); }
+  .modal-title{ font-size:21px; font-weight:800; margin:0 0 8px; padding-right:24px; }
+  .modal-desc{ font-size:14px; color:var(--ink-soft); margin:0 0 26px; line-height:1.6; }
+  .modal-field{ margin-bottom:18px; }
+  .modal-field label{ display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:8px; }
+  .modal-field input, .modal-field textarea, .modal-field select{
+    width:100%; border:1px solid var(--line); background:var(--white);
+    padding:12px 14px; font-family:var(--sans); font-size:14.5px; color:var(--ink);
+  }
+  .modal-field select{ appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B929B' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center;
+  }
+  .modal-field input:focus, .modal-field textarea:focus, .modal-field select:focus{
+    outline:none; border-color:var(--navy);
+  }
+  .modal-field textarea{ resize:vertical; min-height:88px; }
+  .modal-field-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:420px){ .modal-field-row{ grid-template-columns:1fr; } }
+  .modal-field-row .modal-field{ margin-bottom:0; }
+  .modal-submit{
+    width:100%; border:none; background:var(--signal); color:var(--navy);
+    font-family:var(--sans); font-size:14.5px; font-weight:700;
+    padding:14px 20px; cursor:pointer; margin-top:6px;
+    transition:opacity .18s ease;
+  }
+  .modal-submit:hover{ opacity:0.86; }
+  .modal-note{ font-size:12.5px; color:var(--ink-faint); margin-top:14px; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<header class="site" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="logo" href="#top">THENODIX</a>
+    <div class="tabs-wrap">
+      <ul class="tabs" id="tabNav">
+        <li><a href="#architecture" data-tab="architecture">서비스 구조</a></li>
+        <li><a href="#product-01" data-tab="product-01">진단</a></li>
+        <li><a href="#product-02" data-tab="product-02">성장 설계</a></li>
+        <li><a href="#product-03" data-tab="product-03">경영 자문</a></li>
+        <li><a href="#strategic" data-tab="strategic">전략 프로젝트</a></li>
+        <li><a href="#why" data-tab="why">Why</a></li>
+      </ul>
+    </div>
+    <a class="header-cta js-contact-open" href="#contact">문의하기</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <p class="hero-kicker">브랜드 성장 의사결정 자문</p>
+      <h1>브랜드의 숫자를 읽고,<br>다음 성장을 위한<br>의사결정을 설계합니다.</h1>
+      <p class="hero-sub">더노딕스는 데이터를 정리해주는 곳이 아닙니다. 어떤 상품을 키워야 하고, 얼마까지 투자할 수 있으며, 그 결과 브랜드가 어디까지 성장할 수 있는지를 판단해드립니다.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#architecture">서비스 구조 보기</a>
+        <a class="btn-secondary js-contact-open" href="#contact">상담 문의하기</a>
+      </div>
+
+      <div class="pipeline-frame">
+        <div class="pipeline-row">
+          <div class="pipeline-node">
+            <div class="num">01</div>
+            <div class="term">DATA</div>
+            <div class="desc">최근 3개월 실적을 88코드 상품 단위로 확인합니다.</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="num">02</div>
+            <div class="term">JUDGMENT</div>
+            <div class="desc">경제성과 투자 여력을 근거로 판단을 내립니다.</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="num">03</div>
+            <div class="term">PRIORITY</div>
+            <div class="desc">무엇을 먼저 키우고 줄일지 우선순위를 정합니다.</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="num">04</div>
+            <div class="term">GROWTH</div>
+            <div class="desc">실제 숫자로 확인되는 성장으로 이어갑니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="architecture">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="section-label">Service Architecture</p>
+        <h2 class="section-title">세 개의 서비스, 하나의 성장 흐름</h2>
+        <p class="section-desc">성장 가능성을 진단하고, 3개월 동안 목표매출에 맞춰 설계하고, 6개월 KPI를 기반으로 경영진의 다음 결정을 지속적으로 지원합니다. 세 상품은 실행 대행이 아니라 판단과 설계의 깊이, 관계의 기간, 의사결정 빈도에 따라 단계적으로 확장됩니다.</p>
+      </div>
+
+      <div class="table-scroll">
+        <table class="arch">
+          <thead>
+            <tr>
+              <th></th>
+              <th>① 브랜드 성장 가능성 진단</th>
+              <th>② 3개월 성장 설계</th>
+              <th>③ 경영진 성장 의사결정 자문</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>고객의 질문</th>
+              <td data-label="① 브랜드 성장 가능성 진단">우리 브랜드는 어디까지 성장할 수 있나?</td>
+              <td data-label="② 3개월 성장 설계">앞으로 3개월 동안 어떻게 목표매출을 만들까?</td>
+              <td data-label="③ 경영진 성장 의사결정 자문">실제 운영하면서 무엇을 더하고 줄이고 바꿔야 하나?</td>
+            </tr>
+            <tr>
+              <th>핵심 역할</th>
+              <td data-label="① 브랜드 성장 가능성 진단">성장 가능성 판단</td>
+              <td data-label="② 3개월 성장 설계">목표매출 달성을 위한 설계·조정</td>
+              <td data-label="③ 경영진 성장 의사결정 자문">KPI 기반 지속적 경영 의사결정</td>
+            </tr>
+            <tr>
+              <th>기간</th>
+              <td data-label="① 브랜드 성장 가능성 진단">약 2주</td>
+              <td data-label="② 3개월 성장 설계">3개월</td>
+              <td data-label="③ 경영진 성장 의사결정 자문">7개월 계약 / 6개월 KPI</td>
+            </tr>
+            <tr>
+              <th>직접 실행</th>
+              <td class="mute" data-label="① 브랜드 성장 가능성 진단">제외</td>
+              <td class="mute" data-label="② 3개월 성장 설계">제외</td>
+              <td class="mute" data-label="③ 경영진 성장 의사결정 자문">제외</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT 01 -->
+  <section class="product" id="product-01">
+    <div class="wrap">
+      <div class="product-top">
+        <div>
+          <p class="product-eyebrow">Product 01</p>
+          <h3 class="product-title">브랜드 성장 가능성 진단</h3>
+          <p class="product-lede">어떤 상품을 키워야 하고, 얼마까지 투자할 수 있으며, 그 결과 브랜드가 어디까지 성장할 수 있는지를 판단합니다. 최근 3개월 데이터를 기준으로 브랜드 전체 상태부터 상품별 경제성, 투자 여력, 확장 가능성, 성장 시뮬레이션까지 분석하는 일회성 진단 서비스입니다.</p>
+        </div>
+        <div class="product-facts">
+          <div class="fact-row"><div class="k">기간</div><div class="v">자료 전달 후 약 2주</div></div>
+          <div class="fact-row"><div class="k">미팅</div><div class="v">Kick-off 1회 + Final Review 1회</div></div>
+          <div class="fact-row"><div class="k">분석 기준</div><div class="v">최근 3개월 실적 / 88코드 상품 단위</div></div>
+          <div class="fact-row"><div class="k">산출물</div><div class="v">상세 분석자료, Executive Summary, 상품별 성장 우선순위, 성장 시뮬레이션</div></div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step"><div class="step-num">STEP 1</div><div class="step-body">브랜드 현황</div></div>
+        <div class="step"><div class="step-num">STEP 2</div><div class="step-body">상품별 경제성</div></div>
+        <div class="step"><div class="step-num">STEP 3</div><div class="step-body">상품별 성장 가능성</div></div>
+        <div class="step"><div class="step-num">STEP 4</div><div class="step-body">상품별 성장전략</div></div>
+        <div class="step"><div class="step-num">STEP 5</div><div class="step-body">브랜드 성장 시뮬레이션</div></div>
+      </div>
+
+      <div class="frame" data-label="종료점">
+        <p>어떤 상품을 어떤 방향으로 키우면 어느 수준까지 성장 가능한지 제시합니다.</p>
+        <p><strong>제외 범위</strong> — 월별 실행계획, 광고 직접 운영, 대행사·내부 담당자 실행관리는 포함하지 않습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT 02 -->
+  <section class="product" id="product-02">
+    <div class="wrap">
+      <div class="product-top">
+        <div>
+          <p class="product-eyebrow">Product 02</p>
+          <h3 class="product-title">3개월 성장 설계</h3>
+          <p class="product-lede">3개월 목표매출을 설계하고, 실제 실적을 보며 상품·행사·광고·재고·유통 계획을 계속 조정합니다. 계획서를 전달하고 끝나는 프로젝트가 아니라, 실제 숫자와 현장 조건을 확인하면서 목표매출 달성 구조를 설계하고 조정하는 집중 Growth Project입니다.</p>
+        </div>
+        <div class="product-facts">
+          <div class="fact-row"><div class="k">기간</div><div class="v">3개월</div></div>
+          <div class="fact-row"><div class="k">주간 미팅</div><div class="v">Growth Pulse — Zoom 주 1회, 20~30분</div></div>
+          <div class="fact-row"><div class="k">월간 미팅</div><div class="v">Growth Review — 월 1회, 60~90분</div></div>
+          <div class="fact-row"><div class="k">MD 동석</div><div class="v">프로젝트 기간 내 최대 3회</div></div>
+          <div class="fact-row"><div class="k">수시 자문</div><div class="v">메신저·이메일 기반 성장 의사결정 질문</div></div>
+        </div>
+      </div>
+
+      <div class="subtable">
+        <table class="mini">
+          <thead>
+            <tr><th></th><th>주간 Growth Pulse</th><th>월간 Growth Review</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>목적</th><td>이번 주 판단</td><td>다음 달 전략 조정</td></tr>
+            <tr><th>형식</th><td>1페이지 또는 대시보드</td><td>5~7장 내외 전략 Review</td></tr>
+            <tr><th>핵심 내용</th><td>매출 Gap, 주요 이슈, 이번 주 결정사항</td><td>KPI, Forecast, 상품별 성과, 투자, 다음 달 Plan</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="frame" data-label="제외 범위">
+        <p>MD 커뮤니케이션 대행, 대행사 지시, 콘텐츠 일정관리, 내부 담당자 업무·일정 관리는 포함하지 않습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT 03 -->
+  <section class="product" id="product-03">
+    <div class="wrap">
+      <div class="product-top">
+        <div>
+          <p class="product-eyebrow">Product 03</p>
+          <h3 class="product-title">경영진 성장 의사결정 자문</h3>
+          <p class="product-lede">6개월 KPI를 두고 Actual과 Forecast를 기반으로 상품·투자·손익·재고·유통에 관한 주요 경영 판단을 지속적으로 지원합니다.</p>
+        </div>
+        <div class="product-facts">
+          <div class="fact-row"><div class="k">계약기간</div><div class="v">7개월</div></div>
+          <div class="fact-row"><div class="k">KPI 기간</div><div class="v">6개월</div></div>
+          <div class="fact-row"><div class="k">정기 미팅</div><div class="v">월 2회 권장 — 월간 Growth &amp; KPI Review + 월중 Decision Meeting</div></div>
+          <div class="fact-row"><div class="k">직접 실행</div><div class="v">내부팀·MD·대행사 업무 지시 및 일정관리는 제외</div></div>
+        </div>
+      </div>
+
+      <div class="subtable">
+        <table class="mini">
+          <thead><tr><th></th><th>진행 내용</th></tr></thead>
+          <tbody>
+            <tr><th>1개월차</th><td>Baseline 점검, 6M KPI 설정, Forecast·투자 기준 수립, 보고체계 구축</td></tr>
+            <tr><th>2~7개월차</th><td>Actual → KPI Gap → Forecast → 투자 판단 → 상품 우선순위 → 다음 결정</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="frame" data-label="성과 평가 기준">
+        <p>성과는 단순 매출만으로 판단하지 않습니다. 합의된 투자예산과 손익 Guardrail 안에서 KPI를 달성했는지를 함께 평가하며, 달성 수준에 따라 별도의 성과 보상 체계를 협의합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRATEGIC PROJECTS -->
+  <section id="strategic">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="section-label">Strategic Projects</p>
+        <h2 class="section-title">추가 전략 프로젝트 운영 원칙</h2>
+        <p class="section-desc">기존 Plan 안에서 조정하는 일은 기본 서비스에 포함하고, 새로운 Plan을 만드는 일은 별도 전략 프로젝트로 제안합니다. 정기 계약 과정에서 새로운 전략판이 필요하다고 판단되는 경우, 더노딕스가 먼저 필요성과 적정 시점을 제안합니다.</p>
+      </div>
+
+      <div class="table-scroll">
+        <table class="scope">
+          <thead>
+            <tr><th></th><th>기본 서비스 포함</th><th>별도 프로젝트</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>판단 기준</th><td data-label="기본 서비스 포함">기존 Plan 안의 조정</td><td data-label="별도 프로젝트">새로운 Plan을 별도로 설계</td></tr>
+            <tr><th>예시 1</th><td data-label="기본 서비스 포함">이번 달 광고비 증감 판단</td><td data-label="별도 프로젝트">내년도 연간 성장전략</td></tr>
+            <tr><th>예시 2</th><td data-label="기본 서비스 포함">PPM 진행 여부 판단</td><td data-label="별도 프로젝트">신제품 Launch Strategy</td></tr>
+            <tr><th>예시 3</th><td data-label="기본 서비스 포함">상품 투자 우선순위 수정</td><td data-label="별도 프로젝트">신규 채널 진입 전략</td></tr>
+            <tr><th>예시 4</th><td data-label="기본 서비스 포함">재고·행사 일정 조정</td><td data-label="별도 프로젝트">상품 포트폴리오 재편 / 조직·대행사 운영구조 설계</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="scope-examples">
+        <span class="scope-tag">연간 성장전략</span>
+        <span class="scope-tag">Hero SKU 확장 전략</span>
+        <span class="scope-tag">신제품 런칭 전략</span>
+        <span class="scope-tag">오프라인 확대 전략</span>
+        <span class="scope-tag">Growth Investment Plan</span>
+        <span class="scope-tag">신규 채널 전략</span>
+        <span class="scope-tag">상품 포트폴리오 재편</span>
+        <span class="scope-tag">Growth Operating Structure 설계</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="section-label">Why The Nodics</p>
+        <h2 class="section-title">문제를 요청받은 뒤 해결하는 것이 아니라,<br>다음 성장이 필요한 시점을 먼저 발견합니다.</h2>
+        <p class="section-desc">더노딕스의 차별화는 특정 상품의 기능이 아니라 모든 서비스에 공통으로 작동하는 판단 방식에 있습니다.</p>
+      </div>
+
+      <div class="diff-list">
+        <div class="diff-item">
+          <div class="diff-mark">01</div>
+          <div class="diff-term">상품 단위로 성장성을 판단</div>
+          <div class="diff-desc">브랜드 전체 평균에 묻히지 않고 어떤 상품이 현재와 미래의 성장을 만드는지 구분합니다.</div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-mark">02</div>
+          <div class="diff-term">매출과 투자여력을 함께 판단</div>
+          <div class="diff-desc">원가·거래조건·광고비·BE ROAS를 함께 보며 얼마까지 투자 가능한지 제시합니다.</div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-mark">03</div>
+          <div class="diff-term">실행보다 판단을 설계</div>
+          <div class="diff-desc">대행·운영 노동보다 무엇을 우선하고 어떤 결정을 내려야 하는지에 집중합니다.</div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-mark">04</div>
+          <div class="diff-term">숫자와 사업 타이밍을 함께 읽음</div>
+          <div class="diff-desc">Actual과 Forecast를 기반으로 다음 전략이 필요한 시점을 선제적으로 포착합니다.</div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-mark">05</div>
+          <div class="diff-term">신규 성장과제를 먼저 제안</div>
+          <div class="diff-desc">연간전략·신제품·유통확장·투자·조직 등 다음 성장판이 필요할 때 먼저 제안합니다.</div>
+        </div>
+      </div>
+
+      <div class="frame principles" data-label="서비스 원칙">
+        <ul>
+          <li>더노딕스는 브랜드의 숫자를 읽고 다음 성장을 위한 의사결정을 설계한다.</li>
+          <li>서비스의 중심은 Reporting이 아니라 Judgment와 Priority다.</li>
+          <li>직접 실행관리와 일정관리는 별도 Control Tower 영역으로 구분한다.</li>
+          <li>기존 Plan을 조정하는 일과 새로운 Plan을 만드는 일을 명확히 구분한다.</li>
+          <li>다음 성장과제를 먼저 발견하고 제안하는 것을 더노딕스의 공통 차별화 역량으로 둔다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div>
+          <h2>다음 성장 지점을,<br>지금 판단해 보세요.</h2>
+          <p>브랜드 성장 가능성 진단부터 시작할 수 있습니다. 최근 3개월 데이터를 기준으로 약 2주 안에 어떤 상품을 어디까지 키울 수 있는지 확인합니다.</p>
+          <a class="btn-primary js-contact-open" href="#contact">상담 문의하기</a>
+        </div>
+        <div class="contact-info">
+          <div class="row"><span>Email</span><a href="mailto:jihee.lab@thenodix.com">jihee.lab@thenodix.com</a></div>
+          <div class="row"><span>회신 소요기간</span><span>문의 후 약 1주 이내</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span class="footer-logo">THENODIX</span>
+    <span>DATA → JUDGMENT → PRIORITY → GROWTH</span>
+  </div>
+</footer>
+<div class="copyright">© 2026 THENODIX. All rights reserved.</div>
+
+<div class="modal-overlay" id="contactModal" aria-hidden="true">
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+    <button type="button" class="modal-close" id="modalClose" aria-label="닫기">&times;</button>
+    <h3 class="modal-title" id="contactModalTitle">상담 문의하기</h3>
+    <p class="modal-desc">내용을 남겨주시면 이메일로 정리해서 보내드려요. 확인 후 순서대로 회신드립니다.</p>
+    <form id="contactForm">
+      <div class="modal-field">
+        <label for="cf-company">회사명 / 부서</label>
+        <input type="text" id="cf-company" name="company" required>
+      </div>
+      <div class="modal-field-row" style="margin-bottom:18px;">
+        <div class="modal-field">
+          <label for="cf-name">담당자 이름 / 직책</label>
+          <input type="text" id="cf-name" name="name" required>
+        </div>
+        <div class="modal-field">
+          <label for="cf-phone">연락처</label>
+          <input type="tel" id="cf-phone" name="phone" required>
+        </div>
+      </div>
+      <div class="modal-field">
+        <label for="cf-email">이메일 주소</label>
+        <input type="email" id="cf-email" name="email" required>
+      </div>
+      <div class="modal-field-row" style="margin-bottom:18px;">
+        <div class="modal-field">
+          <label for="cf-vendor">밴더사 운영 여부</label>
+          <select id="cf-vendor" name="vendor" required>
+            <option value="" disabled selected>선택해주세요</option>
+            <option value="예">예</option>
+            <option value="아니오">아니오</option>
+          </select>
+        </div>
+        <div class="modal-field">
+          <label for="cf-agency">마케팅 대행사 운영 여부</label>
+          <select id="cf-agency" name="agency" required>
+            <option value="" disabled selected>선택해주세요</option>
+            <option value="예">예</option>
+            <option value="아니오">아니오</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-field-row" style="margin-bottom:18px;">
+        <div class="modal-field">
+          <label for="cf-team">팀 인원</label>
+          <input type="text" id="cf-team" name="team" placeholder="예: 5명" required>
+        </div>
+        <div class="modal-field">
+          <label for="cf-revenue">월평균 매출액 <span style="font-weight:400;">(최근 3개월, Sell-out)</span></label>
+          <input type="text" id="cf-revenue" name="revenue" placeholder="예: 3억원" required>
+        </div>
+      </div>
+      <div class="modal-field">
+        <label for="cf-website">회사 웹사이트</label>
+        <input type="text" id="cf-website" name="website" placeholder="https://">
+      </div>
+      <div class="modal-field">
+        <label for="cf-message">문의 내용</label>
+        <textarea id="cf-message" name="message" placeholder="관심 있는 서비스, 궁금하신 점을 적어주세요." required></textarea>
+      </div>
+      <button type="submit" class="modal-submit">이메일로 보내기</button>
+      <p class="modal-note">'이메일로 보내기'를 누르면 작성하신 내용으로 이메일 앱이 열립니다. 보내기 버튼을 한 번 더 눌러야 실제로 전송돼요.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+  var header = document.getElementById('siteHeader');
+  var tabLinks = Array.prototype.slice.call(document.querySelectorAll('#tabNav a'));
+  var sectionIds = ['architecture','product-01','product-02','product-03','strategic','why','contact'];
+  var sections = sectionIds.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var hero = document.getElementById('hero');
+
+  function onScroll(){
+    if (window.scrollY > hero.offsetHeight - 80){
+      header.classList.add('is-scrolled');
+    } else {
+      header.classList.remove('is-scrolled');
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  if ('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          var id = entry.target.id;
+          tabLinks.forEach(function(link){
+            link.classList.toggle('active', link.dataset.tab === id);
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    sections.forEach(function(s){
+      if (s.id !== 'contact') observer.observe(s);
+    });
+  }
+
+  // Contact modal
+  var modal = document.getElementById('contactModal');
+  var modalClose = document.getElementById('modalClose');
+  var contactForm = document.getElementById('contactForm');
+  var openTriggers = Array.prototype.slice.call(document.querySelectorAll('.js-contact-open'));
+  var lastFocused = null;
+
+  function openModal(e){
+    if (e) e.preventDefault();
+    lastFocused = document.activeElement;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    var firstField = document.getElementById('cf-company');
+    if (firstField) firstField.focus();
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocused) lastFocused.focus();
+  }
+
+  openTriggers.forEach(function(el){ el.addEventListener('click', openModal); });
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+
+  contactForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var company = document.getElementById('cf-company').value.trim();
+    var name = document.getElementById('cf-name').value.trim();
+    var phone = document.getElementById('cf-phone').value.trim();
+    var email = document.getElementById('cf-email').value.trim();
+    var vendor = document.getElementById('cf-vendor').value;
+    var agency = document.getElementById('cf-agency').value;
+    var team = document.getElementById('cf-team').value.trim();
+    var revenue = document.getElementById('cf-revenue').value.trim();
+    var website = document.getElementById('cf-website').value.trim();
+    var message = document.getElementById('cf-message').value.trim();
+
+    var subject = encodeURIComponent('[THENODIX 상담 문의] ' + company + ' / ' + name);
+    var body = encodeURIComponent(
+      '회사명/부서: ' + company + '\n' +
+      '담당자 이름/직책: ' + name + '\n' +
+      '연락처: ' + phone + '\n' +
+      '이메일 주소: ' + email + '\n' +
+      '밴더사 운영 여부: ' + vendor + '\n' +
+      '마케팅 대행사 운영 여부: ' + agency + '\n' +
+      '팀 인원: ' + team + '\n' +
+      '월평균 매출액 (최근 3개월, Sell-out): ' + revenue + '\n' +
+      '회사 웹사이트: ' + (website || '-') + '\n\n' +
+      '문의 내용:\n' + message
+    );
+    window.location.href = 'mailto:jihee.lab@thenodix.com?subject=' + subject + '&body=' + body;
+  });
+})();
+</script>
+</body>
+</html>
