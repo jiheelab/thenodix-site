@@ -49,6 +49,7 @@
   header.site{
     position:sticky; top:0; z-index:50;
     background:rgba(16,28,44,0.90);
+    -webkit-backdrop-filter:blur(10px);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--navy-line);
     transition:background .25s ease, border-color .25s ease;
@@ -95,6 +96,37 @@
   header.site.is-scrolled .tabs a{ color:var(--ink-soft); }
   header.site.is-scrolled .tabs a:hover{ color:var(--ink); }
   header.site.is-scrolled .tabs a.active{ color:var(--ink); border-bottom-color:var(--signal); }
+
+  .menu-toggle{
+    display:none; flex:0 0 auto;
+    width:36px; height:36px; align-items:center; justify-content:center;
+    background:transparent; border:1px solid rgba(247,247,242,0.4); color:var(--paper);
+    cursor:pointer; padding:0;
+  }
+  .menu-toggle svg{ width:16px; height:16px; }
+  header.site.is-scrolled .menu-toggle{ color:var(--ink); border-color:var(--line); }
+
+  @media (max-width:680px){
+    .tabs-wrap{
+      display:none;
+      position:absolute; top:100%; left:0; right:0;
+      background:var(--navy); border-bottom:1px solid var(--navy-line);
+      max-height:calc(100vh - 64px); overflow-y:auto;
+    }
+    .tabs-wrap.is-open{ display:block; }
+    .tabs-wrap::after{ display:none; }
+    header.site.is-scrolled .tabs-wrap{ background:var(--paper); border-bottom-color:var(--line-soft); }
+    .tabs{ flex-direction:column; overflow-x:visible; gap:0; padding:6px 0; }
+    .tabs li{ flex:none; width:100%; }
+    .tabs a{
+      padding:15px 20px; border-bottom:1px solid rgba(247,247,242,0.08);
+      border-left:3px solid transparent;
+    }
+    header.site.is-scrolled .tabs a{ border-bottom-color:var(--line-soft); }
+    .tabs a.active{ border-bottom-color:rgba(247,247,242,0.08); border-left-color:var(--signal); background:rgba(255,255,255,0.04); }
+    header.site.is-scrolled .tabs a.active{ border-bottom-color:var(--line-soft); background:rgba(16,28,44,0.04); }
+    .menu-toggle{ display:flex; }
+  }
 
   .header-cta{
     font-family:var(--sans); font-size:13.5px; font-weight:700;
@@ -218,16 +250,16 @@
   @media (max-width:680px){
     .table-scroll{ overflow-x:visible; }
     table.arch{ min-width:0; }
-    table.arch thead, table.scope thead{ display:none; }
-    table.arch tr, table.scope tr{ display:block; border-bottom:1px solid var(--line); padding:16px 0; }
-    table.arch tr:first-child, table.scope tr:first-child{ padding-top:0; }
-    table.arch th, table.arch td, table.scope th, table.scope td{
-      display:block; border:none !important; padding:5px 0 !important;
+    table.arch thead, table.scope thead, table.mini thead{ display:none; }
+    table.arch tr, table.scope tr, table.mini tr{ display:block; border-bottom:1px solid var(--line); padding:16px 0; }
+    table.arch tr:first-child, table.scope tr:first-child, table.mini tr:first-child{ padding-top:0; }
+    table.arch th, table.arch td, table.scope th, table.scope td, table.mini th, table.mini td{
+      display:block; border:none !important; padding:5px 0 !important; width:auto !important;
     }
-    table.arch tbody th, table.scope tbody th{
+    table.arch tbody th, table.scope tbody th, table.mini tbody th{
       font-size:13px; font-weight:700; color:var(--ink); margin-bottom:6px;
     }
-    table.arch td::before, table.scope td::before{
+    table.arch td::before, table.scope td::before, table.mini td::before{
       content:attr(data-label);
       display:block; font-size:11.5px; font-weight:700; color:var(--ink-faint); margin-top:8px; margin-bottom:2px;
     }
@@ -402,7 +434,7 @@
 <header class="site" id="siteHeader">
   <div class="wrap header-inner">
     <a class="logo" href="#top">THENODIX</a>
-    <div class="tabs-wrap">
+    <div class="tabs-wrap" id="tabsWrap">
       <ul class="tabs" id="tabNav">
         <li><a href="#architecture" data-tab="architecture">서비스 구조</a></li>
         <li><a href="#product-01" data-tab="product-01">진단</a></li>
@@ -412,6 +444,9 @@
         <li><a href="#why" data-tab="why">Why</a></li>
       </ul>
     </div>
+    <button type="button" class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="tabsWrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <a class="header-cta js-contact-open" href="#contact">문의하기</a>
   </div>
 </header>
@@ -560,9 +595,9 @@
             <tr><th></th><th>주간 Growth Pulse</th><th>월간 Growth Review</th></tr>
           </thead>
           <tbody>
-            <tr><th>목적</th><td>이번 주 판단</td><td>다음 달 전략 조정</td></tr>
-            <tr><th>형식</th><td>1페이지 또는 대시보드</td><td>5~7장 내외 전략 Review</td></tr>
-            <tr><th>핵심 내용</th><td>매출 Gap, 주요 이슈, 이번 주 결정사항</td><td>KPI, Forecast, 상품별 성과, 투자, 다음 달 Plan</td></tr>
+            <tr><th>목적</th><td data-label="주간 Growth Pulse">이번 주 판단</td><td data-label="월간 Growth Review">다음 달 전략 조정</td></tr>
+            <tr><th>형식</th><td data-label="주간 Growth Pulse">1페이지 또는 대시보드</td><td data-label="월간 Growth Review">5~7장 내외 전략 Review</td></tr>
+            <tr><th>핵심 내용</th><td data-label="주간 Growth Pulse">매출 Gap, 주요 이슈, 이번 주 결정사항</td><td data-label="월간 Growth Review">KPI, Forecast, 상품별 성과, 투자, 다음 달 Plan</td></tr>
           </tbody>
         </table>
       </div>
@@ -594,8 +629,8 @@
         <table class="mini">
           <thead><tr><th></th><th>진행 내용</th></tr></thead>
           <tbody>
-            <tr><th>1개월차</th><td>Baseline 점검, 6M KPI 설정, Forecast·투자 기준 수립, 보고체계 구축</td></tr>
-            <tr><th>2~7개월차</th><td>Actual → KPI Gap → Forecast → 투자 판단 → 상품 우선순위 → 다음 결정</td></tr>
+            <tr><th>1개월차</th><td data-label="진행 내용">Baseline 점검, 6M KPI 설정, Forecast·투자 기준 수립, 보고체계 구축</td></tr>
+            <tr><th>2~7개월차</th><td data-label="진행 내용">Actual → KPI Gap → Forecast → 투자 판단 → 상품 우선순위 → 다음 결정</td></tr>
           </tbody>
         </table>
       </div>
@@ -647,8 +682,8 @@
   <section id="why">
     <div class="wrap">
       <div class="section-head">
-        <p class="section-label">Why The Nodics</p>
-        <h2 class="section-title">문제를 요청받은 뒤 해결하는 것이 아니라,<br>다음 성장이 필요한 시점을 먼저 발견합니다.</h2>
+        <p class="section-label">Why THENODIX</p>
+        <h2 class="section-title">문제를 요청받은 뒤 해결하는 것이 아니라, 다음 성장이 필요한 시점을 먼저 발견합니다.</h2>
         <p class="section-desc">더노딕스의 차별화는 특정 상품의 기능이 아니라 모든 서비스에 공통으로 작동하는 판단 방식에 있습니다.</p>
       </div>
 
@@ -807,6 +842,26 @@
   }
   window.addEventListener('scroll', onScroll, { passive:true });
   onScroll();
+
+  // Mobile menu toggle
+  var menuToggle = document.getElementById('menuToggle');
+  var tabsWrap = document.getElementById('tabsWrap');
+  menuToggle.addEventListener('click', function(){
+    var isOpen = tabsWrap.classList.toggle('is-open');
+    menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  tabLinks.forEach(function(link){
+    link.addEventListener('click', function(){
+      tabsWrap.classList.remove('is-open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+  document.addEventListener('click', function(e){
+    if (tabsWrap.classList.contains('is-open') && !tabsWrap.contains(e.target) && e.target !== menuToggle && !menuToggle.contains(e.target)){
+      tabsWrap.classList.remove('is-open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
 
   if ('IntersectionObserver' in window){
     var observer = new IntersectionObserver(function(entries){
