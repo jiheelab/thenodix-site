@@ -129,7 +129,7 @@
     header.site.is-scrolled .tabs a{ border-bottom-color:var(--line-soft); }
     .tabs a.active{ border-bottom-color:rgba(247,247,242,0.08); border-left-color:var(--signal); background:rgba(255,255,255,0.04); }
     header.site.is-scrolled .tabs a.active{ border-bottom-color:var(--line-soft); background:rgba(16,28,44,0.04); }
-    .menu-toggle{ display:flex; }
+    .menu-toggle{ display:flex; margin-left:auto; }
   }
 
   .header-cta{
@@ -255,7 +255,8 @@
 
   @media (max-width:680px){
     .table-scroll{ overflow-x:visible; }
-    table.arch{ min-width:0; }
+    table.arch{ min-width:0; table-layout:auto; }
+    table.arch col{ width:auto !important; }
     table.arch thead, table.scope thead, table.mini thead{ display:none; }
     table.arch tr, table.scope tr, table.mini tr{ display:block; border-bottom:1px solid var(--line); padding:16px 0; }
     table.arch tr:first-child, table.scope tr:first-child, table.mini tr:first-child{ padding-top:0; }
