@@ -38,6 +38,8 @@
     font-size:16px;
     line-height:1.65;
     font-weight:400;
+    word-break:keep-all;
+    overflow-wrap:break-word;
     -webkit-font-smoothing:antialiased;
   }
   img,svg{display:block; max-width:100%;}
@@ -231,6 +233,7 @@
   .table-scroll{ overflow-x:auto; }
   table.arch{
     width:100%; border-collapse:collapse; min-width:640px;
+    table-layout:fixed;
     font-size:14.5px;
   }
   table.arch th, table.arch td{
@@ -300,17 +303,36 @@
     border:1.5px solid var(--navy);
     padding:26px 26px 24px;
     margin-top:32px;
-    max-width:70ch;
+    max-width:none;
   }
+  .frame p{ max-width:70ch; margin:0; font-size:14.5px; color:var(--ink-soft); line-height:1.7; }
   .frame::before{
     content:attr(data-label);
     position:absolute; top:-11px; left:20px;
     background:var(--paper); padding:0 8px;
     font-size:12px; font-weight:700; color:var(--ink-faint); letter-spacing:0.04em;
   }
-  .frame p{ margin:0; font-size:14.5px; color:var(--ink-soft); line-height:1.7; }
   .frame p + p{ margin-top:10px; }
   .frame strong{ color:var(--ink); font-weight:700; }
+
+  /* ---------- Onboarding banner (secondary track) ---------- */
+  .onboarding-banner{ padding:36px 0; }
+  .onboarding-frame{
+    max-width:none;
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
+    flex-wrap:wrap;
+  }
+  .onboarding-frame .ob-text{ flex:1 1 380px; }
+  .onboarding-frame .ob-eyebrow{ font-size:12.5px; font-weight:700; color:var(--ink-faint); margin:0 0 8px; }
+  .onboarding-frame .ob-title{ font-size:17px; font-weight:700; margin:0 0 6px; }
+  .onboarding-frame .ob-desc{ font-size:14px; color:var(--ink-soft); margin:0; line-height:1.6; }
+  .onboarding-frame .ob-cta{
+    flex:0 0 auto;
+    display:inline-block; font-size:13.5px; font-weight:700;
+    color:var(--navy); background:var(--signal); text-decoration:none;
+    padding:11px 20px; white-space:nowrap;
+  }
+  .onboarding-frame .ob-cta:hover{ opacity:0.86; }
 
   /* ---------- Strategic projects ---------- */
   table.scope{ width:100%; border-collapse:collapse; font-size:14.5px; }
@@ -502,6 +524,12 @@
 
       <div class="table-scroll">
         <table class="arch">
+          <colgroup>
+            <col style="width:14%">
+            <col style="width:28.67%">
+            <col style="width:28.67%">
+            <col style="width:28.66%">
+          </colgroup>
           <thead>
             <tr>
               <th></th>
@@ -537,6 +565,19 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="onboarding-banner">
+    <div class="wrap">
+      <div class="frame onboarding-frame" data-label="시작 전에">
+        <div class="ob-text">
+          <p class="ob-eyebrow">아직 3개월 데이터가 없으신가요?</p>
+          <p class="ob-title">올리브영 입점 후, 무엇부터 봐야 할지 모르겠다면</p>
+          <p class="ob-desc">위 세 상품은 최근 3개월 실적 데이터를 기준으로 시작합니다. 아직 데이터가 쌓이지 않은 신규 입점 브랜드라면, 수수료 구조·올리브영-밴더사 관계·채널 생태계부터 함께 정리하는 <strong>온보딩</strong>으로 시작하시는 걸 권해드려요.</p>
+        </div>
+        <a class="ob-cta js-contact-open" href="#contact">온보딩 문의하기</a>
       </div>
     </div>
   </section>
@@ -638,7 +679,7 @@
       </div>
 
       <div class="frame" data-label="성과 평가 기준">
-        <p>성과는 단순 매출만으로 판단하지 않습니다. 합의된 투자예산과 손익 Guardrail 안에서 KPI를 달성했는지를 함께 평가하며, 달성 수준에 따라 별도의 성과 보상 체계를 협의합니다.</p>
+        <p>성과는 단순 매출만으로 판단하지 않습니다. 합의된 투자예산과 손익 Guardrail 안에서 KPI를 달성했는지를&nbsp;함께&nbsp;평가하며, 달성 수준에 따라 별도의 성과 보상 체계를 협의합니다.</p>
       </div>
     </div>
   </section>
